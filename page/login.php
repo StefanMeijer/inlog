@@ -25,7 +25,7 @@ function userValues($errors)
         array_push($errors, "Password is required");
     }
 
-    //  If no errors accur, try to login
+    //  If no errors accur, check the user
     if (count($errors) == 0) {
         checkUser($db, $errors, $username, $password);
     }
