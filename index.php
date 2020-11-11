@@ -12,7 +12,7 @@ if (isset($_GET["page"]) && !empty($_GET['page'])) {
     $page = $_GET["page"];
 }
 
-//Include of the page's
+//  Include of the page's
 include_once('elements/header.php');
 include_once(sprintf('%s/%s.php', 'page', $page));
 include_once('elements/footer.php');
