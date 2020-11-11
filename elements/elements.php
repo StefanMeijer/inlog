@@ -21,12 +21,13 @@ function isAdmin()
 // Function to logout user
 function logout()
 {
-    if (isset($_GET['logout'])) {
+    if (isset($_GET['logout']) && $_GET['logout'] == true) {
         session_destroy();
         unset($_SESSION['user']);
         header("location: index.php?page=login");
     }
 }
+logout();
 
 //Displays errors
 function display_error()
