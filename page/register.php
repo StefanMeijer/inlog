@@ -39,6 +39,8 @@ function inputFields()
 
 function checkUser($db, $errors, $username, $password_1, $email)
 {
+    global $db, $errors;
+
     //  Query that checks if email already exists
     $query = "SELECT username FROM users WHERE username = :username";
     $stmt = $db->prepare($query);
@@ -80,11 +82,11 @@ function register($db, $errors, $username, $password_1, $email)
     header('location: index.php?page=userpage');
 }
 
-// return user array from their id
+// return user array from their id - all info
 function getUserById($id, $db)
 {
     global $db;
-    //Take a note on users_ID, could change if wrong
+    //Take a note on users_ID, could change if wrong in database
     $query = "SELECT * FROM users WHERE users_ID=" . $id;
     $stmt = $db->prepare($query);
     $stmt->execute();

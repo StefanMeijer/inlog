@@ -34,6 +34,7 @@ function userValues($errors)
 //  Check the user
 function checkUser($db, $errors, $username, $password)
 {
+    global $db, $errors;
     //  Check if username exists in database
     try {
         $query1 = "SELECT * FROM users WHERE username = ?";
@@ -65,10 +66,10 @@ function checkUser($db, $errors, $username, $password)
                 login($logged_in_user);
             }
         } else {
-            //  NOT DONE ASK TEACHER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            //  Hij laat dit niet in de array zien, wat heel raar is.. print_r werkt wel
             array_push($errors, "Wrong username/password combination");
         }
+    } else {
+        array_push($errors, "No user could be found with this username.");
     }
 }
 
