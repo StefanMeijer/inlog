@@ -4,4 +4,10 @@ if (!isLoggedIn()) {
     header('location: index.php?page=login');
 }
 
+
+//  Upload CSV
+if (isset($_FILES['uploadedfile'])) {
+    csvImport($db, $_FILES['uploadedfile']);
+}
+
 include_once('views/userPage.php');

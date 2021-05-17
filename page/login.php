@@ -1,23 +1,25 @@
 <?php
-//  Variables
 $errors = array();
 
-// Call the userValues() function if register_btn is clicked
+/**
+ * Call the userValues() function if register_btn is clicked
+ */
 if (isset($_POST['login_btn'])) {
     userValues($errors);
 }
 
-//  Get user values
+/**
+ * Check the form value's
+ * @param (array) $errors list of error messages
+ * return checkUser function or error
+ */
 function userValues($errors)
 {
-    //  Global variables
     global $db, $errors;
 
-    // Get form values
     $username = htmlspecialchars($_POST['username']);
     $password = htmlspecialchars($_POST['password']);
 
-    // Make sure form is filled in correctly
     if (empty($username)) {
         array_push($errors, "Username is required");
     }
@@ -25,17 +27,22 @@ function userValues($errors)
         array_push($errors, "Password is required");
     }
 
-    //  If no errors accur, check the user
     if (count($errors) == 0) {
         checkUser($db, $errors, $username, $password);
     }
 }
 
-//  Check the user
+/**
+ * Check if a user exists
+ * @param (object) $db database connection
+ * @param (array) $errors list of error messages
+ * @param (string) $username filled in username
+ * @param (string) $password filled in password
+ * return login function or error
+ */
 function checkUser($db, $errors, $username, $password)
 {
     global $db, $errors;
-    //  Check if username exists in database
     try {
         $query1 = "SELECT * FROM users WHERE username = ?";
         $stmt1 = $db->prepare($query1);
@@ -45,12 +52,9 @@ function checkUser($db, $errors, $username, $password)
         echo $e->getMessage();
     }
 
-    //  If username exists
     if ($result) {
-        //  Hash password for comparing with database
         $hash = $result["password"];
 
-        //  Check if password is correct with the username
         if (password_verify($password, $hash)) {
             try {
                 $query2 = "SELECT * FROM users WHERE username='$username' AND password='$hash' LIMIT 1";
@@ -60,7 +64,6 @@ function checkUser($db, $errors, $username, $password)
                 echo $e->getMessage();
             }
 
-            // User found
             if ($stmt2->rowCount() == 1) {
                 $logged_in_user = $stmt2->fetch(PDO::FETCH_ASSOC);
                 login($logged_in_user);
@@ -73,20 +76,23 @@ function checkUser($db, $errors, $username, $password)
     }
 }
 
-//  Login the user
+/**
+ * Login the user
+ * @param (array) $logged_in_user list of user details
+ * return $_SESSION['user'] details of user
+ */
 function login($logged_in_user)
 {
-    // Check if user is admin or user
     if ($logged_in_user['user_type'] == 'admin') {
         $_SESSION['user'] = $logged_in_user;
-        $_SESSION['success']  = "You are now logged in";
         header('location: index.php?page=admin');
     } else {
         $_SESSION['user'] = $logged_in_user;
-        $_SESSION['success']  = "You are now logged in";
         header('location: index.php?page=userpage');
     }
 }
 
-//  Include the view of login
+/**
+ * Include the view of loginpage
+ */
 include_once('views/inlogPage.php');

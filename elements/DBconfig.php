@@ -1,5 +1,7 @@
 <?php
-//  Database connection
+/**
+ * Database connection
+ */
 DEFINE("DB_USER", "root"); // username database
 DEFINE("DB_PASS", ""); // password database
 try {

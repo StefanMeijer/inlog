@@ -20,3 +20,11 @@ if (!isset($_GET["page"])) {
         </div>
     </div>
 </div>
+
+<div>
+    <form action="" method="post" enctype="multipart/form-data">
+    Select csv to upload:
+    <input type="file" name="uploadedfile">
+    <input type="submit" name="submit">
+    </form>
+</div>
