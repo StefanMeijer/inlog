@@ -89,7 +89,29 @@ function csvImport($db, $uploadedFile)
 
 /**
  * Function to export CSV files
+ * @param (object) $db database connection
+ * return csv file
  */
-function csvExport()
+function csvExport($db)
 {
+    ob_end_clean();
+
+    $stmt = $db->prepare("SELECT * FROM csv");
+    $stmt->execute();
+    $toprow  = "'csv_ID', 'username', 'firstname', 'lastname'";
+
+    header('Content-Type: text/csv; charset=utf-8');
+    header('Content-Disposition: attachment; filename=data.csv');
+
+    $header = fopen("php://output", "w");
+    fputcsv($output, array(
+        $toprow
+    ));
+
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        fputcsv($header, $row);
+    }
+
+    fclose($header);
+    exit();
 }

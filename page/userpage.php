@@ -10,4 +10,8 @@ if (isset($_FILES['uploadedfile'])) {
     csvImport($db, $_FILES['uploadedfile']);
 }
 
+if (isset($_POST['submit'])) {
+    csvExport($db);
+}
+
 include_once('views/userPage.php');
