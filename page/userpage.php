@@ -10,7 +10,7 @@ if (isset($_FILES['uploadedfile'])) {
     csvImport($db, $_FILES['uploadedfile']);
 }
 
-if (isset($_POST['submit'])) {
+if (isset($_POST['downloaden'])) {
     csvExport($db);
 }
 
